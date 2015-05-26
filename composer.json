@@ -3,8 +3,7 @@
         "psr-0": {
             "kurma\\": "app/"
         },
-        "files": ["app/configdb.php"],
-        "classmpa": ["app/models"]
+        "classmpa": ["app/kurma/models"]
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"

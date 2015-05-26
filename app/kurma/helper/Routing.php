@@ -9,13 +9,15 @@
 namespace kurma\helper;
 
 use kurma\Setup;
+use kurma\models\Users;
 
 class Routing {
 
     public function setupRouting(Setup $app){
         $app->group('/api', function() use($app){
             $app->get('/', function() {
-               echo "HELLO WORLD!";
+                $kurma = Users::all()->toJson();
+               echo $kurma;
             });
         });
     }
