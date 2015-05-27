@@ -9,6 +9,7 @@
 namespace kurma\controller;
 
 use kurma\models\Kuis;
+use kurma\models\Session;
 
 class KuisController extends AbstractController{
 
@@ -28,12 +29,16 @@ class KuisController extends AbstractController{
 
         $key = isset($request) ? filter_var($request, FILTER_SANITIZE_STRING) : false;
         $isExist = Kuis::query()->where('kuis_pass', '=', md5($request))->get()->count();
-        $isAlreadyLogin = Kuis::query()->where('islogin', '=', false)->get();
 
-        if(!$key && $isExist > 0 && !$isAlreadyLogin){
+        if(!$key || $isExist == 0){
             $this->writeToJSON(['errmsg' => 'Tidak ada izin!'], 400);
             return;
         }
-echo "OK";
+
+        $tes = explode(",", $this->request->headers('Cache-Control'))[0];
+        echo Session::isValid($tes);
+       $sessionId = Session::generateUUID();
+        $this->writeToJSON(['Session' => $sessionId]);
+
     }
 } 

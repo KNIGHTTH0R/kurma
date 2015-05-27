@@ -25,7 +25,7 @@ class AbstractController{
     /**
      * @var Setup
      */
-    private $app;
+    protected $app;
 
     /**
      * @param Setup $app

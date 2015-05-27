@@ -33,5 +33,14 @@ class Routing {
 
            });
         });
+
+        $app->group('/kurma', function() use($app){
+            $mw1 = function (){
+                echo "this middleware!";
+            };
+           $app->get('/', $mw1, function() use($app) {
+                echo "OK";
+           });
+        });
     }
 } 

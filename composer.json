@@ -14,6 +14,7 @@
         "slim/views": "0.1.*",
         "twig/twig": "1.*",
         "symfony/twig-bridge": "~2.3",
+        "rhumsaa/uuid": "2.8.0",
         "illuminate/database": "*"
     },
     "authors": [
