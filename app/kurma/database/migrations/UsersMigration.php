@@ -11,6 +11,7 @@ namespace kurma\database\migrations;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class UsersMigration {
+
     public function run(){
         Capsule::schema()->dropIfExists('users');
         Capsule::schema()->create('users', function($table){
@@ -20,5 +21,4 @@ class UsersMigration {
             $table->timestamps();
         });
     }
-
 } 

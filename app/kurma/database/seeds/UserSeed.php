@@ -8,7 +8,6 @@
 
 namespace kurma\database\seeds;
 
-
 use kurma\models\Users;
 
 class UserSeed {
@@ -16,7 +15,7 @@ class UserSeed {
     public function run(){
         $user = new Users();
         $user->username = "admin";
-        $user->password = "admin";
+        $user->password = md5("admin");
         $user->save();
     }
 } 

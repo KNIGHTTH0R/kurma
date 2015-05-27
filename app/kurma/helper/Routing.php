@@ -14,11 +14,21 @@ use kurma\models\Users;
 class Routing {
 
     public function setupRouting(Setup $app){
-        $app->group('/api', function() use($app){
+        $app->group('/kurmaapi', function() use($app){
             $app->get('/', function() {
                 $kurma = Users::all()->toJson();
                echo $kurma;
             });
+
+            $app->get('/pertanyaan', function() use($app){
+
+            });
+        });
+
+        $app->group('/admin', function() use($app){
+           $app->get('/', function(){
+
+           });
         });
     }
 } 
