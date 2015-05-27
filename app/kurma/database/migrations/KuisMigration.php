@@ -15,7 +15,7 @@ class KuisMigration {
     public function run(){
         Capsule::schema()->dropIfExists('kuis');
         Capsule::schema()->create('kuis', function($table){
-            $table->increments('id_kuis');
+            $table->integer('id_kuis', true);
             $table->string('kuis_name');
             $table->string('kuis_winner')->nullable();
             $table->boolean('isclosed');
