@@ -8,10 +8,16 @@
 
 namespace kurma\models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\Builder as Builder;
 
-class Kuis extends Eloquent{
+class Kuis extends Model{
 
     protected $table = "kuis";
     protected $primaryKey = "id_kuis";
+
+    public function test(){
+        $build = new Builder($this->query());
+        var_dump($build->where('kuis_pass', '=', md5('kuis1')));
+    }
 } 

@@ -8,20 +8,23 @@
 
 namespace kurma\helper;
 
+use kurma\models\Kuis;
+use kurma\controller\KuisController;
 use kurma\Setup;
-use kurma\models\Users;
 
 class Routing {
 
     public function setupRouting(Setup $app){
         $app->group('/kurmaapi', function() use($app){
             $app->get('/', function() {
-                $kurma = Users::all()->toJson();
-               echo $kurma;
+                $kurma = Kuis::all(['id_kuis']);
+                echo $kurma;
             });
 
-            $app->get('/pertanyaan', function() use($app){
-
+            $app->get('/:kuis_id', function($kuisId) use($app){
+                $kuis = new KuisController($app);
+                $kuis->setKuisId($kuisId);
+                echo $kuis->openKuis();
             });
         });
 

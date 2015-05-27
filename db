@@ -35,6 +35,9 @@ class Database {
                 case "help":
                     $this->help();
                     break;
+                case "md5":
+                    echo md5($this->args[2]);
+                    break;
             }
         }
     }

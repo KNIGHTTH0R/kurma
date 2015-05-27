@@ -17,7 +17,9 @@ class KuisMigration {
         Capsule::schema()->create('kuis', function($table){
             $table->integer('id_kuis', true);
             $table->string('kuis_name');
+            $table->string('kuis_pass');
             $table->string('kuis_winner')->nullable();
+            $table->boolean('islogin');
             $table->boolean('isclosed');
             $table->dateTime('kuis_open');
             $table->timestamps();

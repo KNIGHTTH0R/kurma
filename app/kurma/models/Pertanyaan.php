@@ -8,9 +8,9 @@
 
 namespace kurma\models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Database\Eloquent\Model as Model;
 
-class Pertanyaan extends Eloquent{
+class Pertanyaan extends Model{
 
     protected $table = 'pertanyaan';
     protected $primaryKey = 'id_pertanyaan';

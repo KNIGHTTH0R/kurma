@@ -8,7 +8,11 @@
 
 namespace kurma\controller;
 
+use kurma\models\Pertanyaan;
 
-class PertanyaanKontroller {
+class PertanyaanKontroller extends AbstractController{
 
+    public function checkAnswer(){
+        Pertanyaan::where('');
+    }
 } 

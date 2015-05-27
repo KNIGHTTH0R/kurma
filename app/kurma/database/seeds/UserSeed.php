@@ -15,7 +15,7 @@ class UserSeed {
     public function run(){
         $user = new Users();
         $user->username = "admin";
-        $user->password = md5("admin");
+        $user->password = md5("admin123");
         $user->save();
     }
 } 
