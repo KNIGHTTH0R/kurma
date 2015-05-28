@@ -6,7 +6,7 @@
  * Time: 16:02
  */
 
-namespace kurma\controller;
+namespace kurma\controller\api;
 
 use kurma\Setup;
 

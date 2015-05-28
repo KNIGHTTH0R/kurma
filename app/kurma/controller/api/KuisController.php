@@ -6,14 +6,17 @@
  * Time: 14:05
  */
 
-namespace kurma\controller;
+namespace kurma\controller\api;
 
 use kurma\models\Kuis;
-use kurma\models\Session;
 
 class KuisController extends AbstractController{
 
     private $kuisId;
+
+    private function getModel(){
+        return new Kuis();
+    }
 
     public function setKuisId($kuisId){
         $this->kuisId = $kuisId;
@@ -23,22 +26,19 @@ class KuisController extends AbstractController{
 
     }
 
-    //TODO: fixed this method!
     public function openKuis(){
         $request = $this->request->get('kuis_pass');
 
         $key = isset($request) ? filter_var($request, FILTER_SANITIZE_STRING) : false;
-        $isExist = Kuis::query()->where('kuis_pass', '=', md5($request))->get()->count();
+        $isExist = $this->getModel()->isKeyExist($request);
 
-        if(!$key || $isExist == 0){
+        if(!$key || !$isExist){
             $this->writeToJSON(['errmsg' => 'Tidak ada izin!'], 400);
             return;
         }
 
-        $tes = explode(",", $this->request->headers('Cache-Control'))[0];
-        echo Session::isValid($tes);
-       $sessionId = Session::generateUUID();
-        $this->writeToJSON(['Session' => $sessionId]);
-
+        $kurmaID = $this->getModel()->getKurmaID($request);
+        $this->app->session->put("current_kurma$kurmaID", [rand(), "kurma_$kurmaID"]);
+        $this->writeToJSON(["session created" => true, 'session name' => "current_kurma$kurmaID"]);
     }
 } 

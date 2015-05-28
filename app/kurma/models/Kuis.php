@@ -9,15 +9,23 @@
 namespace kurma\models;
 
 use Illuminate\Database\Eloquent\Model as Model;
-use Illuminate\Database\Eloquent\Builder as Builder;
 
 class Kuis extends Model{
 
     protected $table = "kuis";
     protected $primaryKey = "id_kuis";
 
-    public function test(){
-        $build = new Builder($this->query());
-        var_dump($build->where('kuis_pass', '=', md5('kuis1')));
+    public function getKurmaID($kurma_pass){
+        $data = json_decode($this->query()->where('kuis_pass', '=', md5($kurma_pass))->get(['id_kuis']), true);
+        foreach ($data as $id) {
+            return $id['id_kuis'];
+        }
+    }
+
+    public function isKeyExist($kurma_pass){
+        if($this->query()->where('kuis_pass', '=', md5($kurma_pass))->get()->count() > 0){
+            return true;
+        }
+        return false;
     }
 } 

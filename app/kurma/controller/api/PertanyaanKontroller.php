@@ -6,7 +6,7 @@
  * Time: 14:05
  */
 
-namespace kurma\controller;
+namespace kurma\controller\api;
 
 use kurma\models\Pertanyaan;
 

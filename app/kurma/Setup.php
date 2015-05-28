@@ -11,9 +11,15 @@ namespace kurma;
 use Slim\Slim;
 use Slim\Views\Twig as Twig;
 use Slim\Views\TwigExtension as TwigExtension;
+use Slim\Middleware\SessionManager as SessionManager;
+use Slim\Middleware\Session as Session;
 use kurma\helper\Routing;
-use Illuminate\Database\Capsule\Manager as Capsule;
 
+/**
+ * For IDE auto completions
+ *
+ * @property \Illuminate\Session\Store $session
+ */
 class Setup extends Slim {
 
     public function __construct(){
@@ -22,18 +28,21 @@ class Setup extends Slim {
 
         //setup twig template
         parent::__construct([
-           'view'   => $twigView,
-            'mode'  => 'development',
-            'debug' => true,
-            'template.path' => $_SERVER['DOCUMENT_ROOT'] . '/../templates',
-            'cookies.encrypt' => true,
-            'cookies.secret_key' => "981237123",
-            'cookies.cipher' => MCRYPT_RIJNDAEL_256,
-            'cookies.cipher_mode' => MCRYPT_MODE_CBC
+           'view'                   => $twigView,
+            'mode'                  => 'development',
+            'debug'                 => true,
+            //set template path
+            'template.path'         => $_SERVER['DOCUMENT_ROOT'] . '/../templates',
+            //cookie encryption
+            'cookies.encrypt'       => true,
+            'cookies.secret_key'    => 'put your secret key',
+            //session config
+            'sessions.driver'        => 'database',
+            'sessions.table'         => 'sessions'
         ]);
 
         //setup database connection
-        $capsule = new Capsule;
+        $capsule = new \Illuminate\Database\Capsule\Manager;
         $capsule->addConnection(array(
             'driver'    => 'mysql',
             'host'      => 'localhost',
@@ -47,7 +56,12 @@ class Setup extends Slim {
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
 
-        date_default_timezone_set('Europe/Berlin');
+        //setup session manager
+        $manager = new SessionManager($this);
+        $manager->setDbConnection($capsule->getConnection());
+        $this->add(new Session($manager));
+
+        //do routing
         $routing = new Routing();
         $routing->setupRouting($this);
     }

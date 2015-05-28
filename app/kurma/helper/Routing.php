@@ -9,7 +9,7 @@
 namespace kurma\helper;
 
 use kurma\models\Kuis;
-use kurma\controller\KuisController;
+use kurma\controller\api\KuisController;
 use kurma\Setup;
 
 class Routing {
