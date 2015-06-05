@@ -18,11 +18,21 @@ class Kuis extends Model{
     public function isAllowed($kurmaId, $kurmaPass){
         $isAvailable = $this->query()->where('id_kuis', '=', $kurmaId)
                                      ->where('kuis_pass', '=', md5($kurmaPass))
+                                     ->where('islogin', '=', false)
                                      ->get()->count();
         if($isAvailable > 0){
+            $loginStatus = $this->find($kurmaId);
+            $loginStatus->islogin = true;
+            $loginStatus->save();
             return true;
         }
 
         return false;
+    }
+
+    public function closeCurrKuis($kurmaId){
+        $loginStatus = $this->find($kurmaId);
+        $loginStatus->islogin = false;
+        $loginStatus->save();
     }
 } 

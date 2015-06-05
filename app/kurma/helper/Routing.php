@@ -8,7 +8,6 @@
 
 namespace kurma\helper;
 
-use kurma\models\Kuis;
 use kurma\controller\api\KuisController;
 use kurma\Setup;
 
@@ -16,15 +15,25 @@ class Routing {
 
     public function setupRouting(Setup $app){
         $app->group('/kurmaapi', function() use($app){
-            $app->get('/', function() {
-                $kurma = Kuis::all(['id_kuis']);
-                echo $kurma;
+            $kuisController = new KuisController($app);
+
+            $app->get('/', function() use($kuisController){
+                $kuisController->displayKuis();
             });
 
-            $app->get('/:kuis_id', function($kuisId) use($app){
-                $kuis = new KuisController($app);
-                $kuis->setKuisId($kuisId);
-                echo $kuis->openKuis();
+            $app->get('/:kuis_id', function($kuisId) use($kuisController){
+                $kuisController->setKuisId($kuisId);
+                $kuisController->openKuis();
+            });
+
+            $app->get('/:kuis_id/logout', function($kuisId) use($kuisController){
+                $kuisController->setKuisId($kuisId);
+                $kuisController->closeKuis();
+            });
+
+            //need admin role
+            $app->post('/', function() use($kuisController){
+                $kuisController->createNewKuis();
             });
         });
 
