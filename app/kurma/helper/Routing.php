@@ -14,6 +14,7 @@ use kurma\Setup;
 class Routing {
 
     public function setupRouting(Setup $app){
+
         $app->group('/kurmaapi', function() use($app){
             $kuisController = new KuisController($app);
 
@@ -37,19 +38,18 @@ class Routing {
             });
         });
 
-        $app->group('/admin', function() use($app){
-           $app->get('/', function(){
+        $app->group('/view', function() use($app){
+            $app->group('/admin', function() use($app){
+                $app->get('/', function(){
+                    echo "admin";
+                });
+            });
 
-           });
-        });
-
-        $app->group('/kurma', function() use($app){
-            $mw1 = function (){
-                echo "this middleware!";
-            };
-           $app->get('/', $mw1, function() use($app) {
-                echo "OK";
-           });
+            $app->group('/kurma', function() use($app){
+                $app->get('/', function() use($app) {
+                    echo "template";
+                });
+            });
         });
     }
 } 

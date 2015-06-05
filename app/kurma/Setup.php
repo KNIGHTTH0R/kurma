@@ -14,6 +14,7 @@ use Slim\Views\TwigExtension as TwigExtension;
 use Slim\Middleware\SessionManager as SessionManager;
 use Slim\Middleware\Session as Session;
 use kurma\helper\Routing;
+use kurma\helper\MiddlewareMediatype;
 
 /**
  * For IDE auto completions
@@ -61,7 +62,8 @@ class Setup extends Slim {
         $manager->setDbConnection($capsule->getConnection());
         $this->add(new Session($manager));
 
-        //do routing
+        //set Middelware and do routing
+        $this->add(new MiddlewareMediatype());
         $routing = new Routing();
         $routing->setupRouting($this);
     }
