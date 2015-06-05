@@ -30,15 +30,14 @@ class KuisController extends AbstractController{
         $request = $this->request->get('kuis_pass');
 
         $key = isset($request) ? filter_var($request, FILTER_SANITIZE_STRING) : false;
-        $isExist = $this->getModel()->isKeyExist($request);
+        $isAllowed = $this->getModel()->isAllowed($this->kuisId, $key);
 
-        if(!$key || !$isExist){
+        if(!$key || !$isAllowed){
             $this->writeToJSON(['errmsg' => 'Tidak ada izin!'], 400);
             return;
         }
 
-        $kurmaID = $this->getModel()->getKurmaID($request);
-        $this->app->session->put("current_kurma$kurmaID", [rand(), "kurma_$kurmaID"]);
-        $this->writeToJSON(["session created" => true, 'session name' => "current_kurma$kurmaID"]);
+        $this->app->session->put("current_kurma".$this->kuisId, [rand(), "kurma_".$this->kuisId]);
+        $this->writeToJSON(["session created" => true, 'session name' => "current_kurma".$this->kuisId]);
     }
 } 

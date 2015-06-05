@@ -15,17 +15,14 @@ class Kuis extends Model{
     protected $table = "kuis";
     protected $primaryKey = "id_kuis";
 
-    public function getKurmaID($kurma_pass){
-        $data = json_decode($this->query()->where('kuis_pass', '=', md5($kurma_pass))->get(['id_kuis']), true);
-        foreach ($data as $id) {
-            return $id['id_kuis'];
-        }
-    }
-
-    public function isKeyExist($kurma_pass){
-        if($this->query()->where('kuis_pass', '=', md5($kurma_pass))->get()->count() > 0){
+    public function isAllowed($kurmaId, $kurmaPass){
+        $isAvailable = $this->query()->where('id_kuis', '=', $kurmaId)
+                                     ->where('kuis_pass', '=', md5($kurmaPass))
+                                     ->get()->count();
+        if($isAvailable > 0){
             return true;
         }
+
         return false;
     }
 } 
