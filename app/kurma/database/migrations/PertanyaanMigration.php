@@ -19,7 +19,7 @@ class PertanyaanMigration {
             $table->integer('id_kuis')->references('id_kuis')->on('kuis')->onDelete('cascade');
             $table->string('pertanyaan');
             $table->string('jawaban');
-            $table->boolean('isclose');
+            $table->boolean('isclosed');
             $table->timestamps();
         });
     }

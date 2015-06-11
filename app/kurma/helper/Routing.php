@@ -9,6 +9,7 @@
 namespace kurma\helper;
 
 use kurma\controller\api\KuisController;
+use kurma\controller\api\PertanyaanController;
 use kurma\Setup;
 
 class Routing {
@@ -17,7 +18,9 @@ class Routing {
 
         $app->group('/kurmaapi', function() use($app){
             $kuisController = new KuisController($app);
+            $pertanyaanController = new PertanyaanController($app);
 
+            // Kuis Controller
             $app->get('/', function() use($kuisController){
                 $kuisController->displayKuis();
             });
@@ -32,9 +35,19 @@ class Routing {
                 $kuisController->closeKuis();
             });
 
-            //need admin role
+            //TODO: add admin role
             $app->post('/', function() use($kuisController){
                 $kuisController->createNewKuis();
+            });
+
+            // Pertanyaan Controller
+            $app->get('/:kuis_id/pertanyaan', function($kuisId) use($pertanyaanController){
+                if($pertanyaanController->setKuisSession($kuisId)) $pertanyaanController->getPertanyaan();
+            });
+
+            //TODO: add admin role
+            $app->post('/', function() use($pertanyaanController){
+               $pertanyaanController->addNewPertanyaan();
             });
         });
 

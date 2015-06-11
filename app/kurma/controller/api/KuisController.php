@@ -31,6 +31,7 @@ class KuisController extends AbstractController{
      */
     public function closeKuis(){
         $this->getModel()->closeCurrKuis($this->kuisId);
+        $this->app->session->forget('current_kurma'.$this->kuisId);
         $this->writeToJSON(["kuis closed" => true]);
     }
 
